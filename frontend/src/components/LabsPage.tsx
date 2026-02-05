@@ -15,7 +15,12 @@ import {
   CheckCircle2,
   Terminal,
   Languages,
-  BookOpen
+  BookOpen,
+  Fingerprint,
+  Radar,
+  BrainCircuit,
+  Palette,
+  HardDrive
 } from 'lucide-react';
 
 export default function LabsPage() {
@@ -29,18 +34,58 @@ export default function LabsPage() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-[#FF8C00] font-bold text-sm mb-4">
-            Explore Our Labs
+            The Socratic Vision
           </span>
           <h1 className="text-5xl md:text-6xl font-extrabold text-[#1A2B3C] mb-6">
-            Choose Your <span className="text-[#FF8C00]">Path</span>
+            Discover Your <span className="text-[#FF8C00]">Engineering DNA</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover specialized labs designed to build career-ready skills.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            We don't just teach you to code. We analyze <strong>how you think</strong>. 
+            By tracking the questions you ask and the hints you need, we build a unique profile of your strengths—helping you choose the career path where you will thrive.
           </p>
         </motion.div>
+
+        {/* The 5 Pillars Section (New) */}
+        <div className="grid md:grid-cols-5 gap-4 mb-24 max-w-6xl mx-auto">
+          <Pillar 
+            icon={BrainCircuit} 
+            color="text-purple-500" 
+            bg="bg-purple-50" 
+            title="Algorithmic Logic" 
+            desc="Solving complex puzzles efficiently." 
+          />
+          <Pillar 
+            icon={Palette} 
+            color="text-pink-500" 
+            bg="bg-pink-50" 
+            title="Product Engineering" 
+            desc="Crafting intuitive user experiences." 
+          />
+          <Pillar 
+            icon={Database} 
+            color="text-blue-500" 
+            bg="bg-blue-50" 
+            title="Data Strategy" 
+            desc="Structuring and managing information." 
+          />
+          <Pillar 
+            icon={HardDrive} 
+            color="text-slate-600" 
+            bg="bg-slate-100" 
+            title="Systems Arch." 
+            desc="Building scalable infrastructure." 
+          />
+          <Pillar 
+            icon={Fingerprint} 
+            color="text-orange-500" 
+            bg="bg-orange-50" 
+            title="Predictive Intuition" 
+            desc="Understanding patterns & AI logic." 
+          />
+        </div>
 
         {/* Lab Collections Selector */}
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-24">
@@ -61,7 +106,7 @@ export default function LabsPage() {
               Programming Labs
             </h3>
             <p className="text-gray-500">
-              Master Python, Web Development, and AI Engineering through building real apps.
+              The diagnostic phase. We expose you to Python, Web, and Data to find your natural fit.
             </p>
             {activeTab === 'programming' && (
               <motion.div layoutId="active-ring" className="absolute inset-0 border-4 border-[#FF8C00] rounded-3xl pointer-events-none" />
@@ -85,7 +130,7 @@ export default function LabsPage() {
               Language Labs
             </h3>
             <p className="text-gray-500">
-              Coming Soon: Business English and Communication skills for the global workplace.
+              Master the language of global business to unlock international opportunities.
             </p>
             {activeTab === 'language' && (
               <motion.div layoutId="active-ring" className="absolute inset-0 border-4 border-blue-500 rounded-3xl pointer-events-none" />
@@ -104,8 +149,11 @@ export default function LabsPage() {
               transition={{ duration: 0.3 }}
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl font-extrabold text-[#1A2B3C]">Programming Curriculum</h2>
+                <h2 className="text-3xl font-extrabold text-[#1A2B3C]">The Diagnostic Roadmap</h2>
                 <div className="h-1 w-24 bg-[#FF8C00] mx-auto mt-4 rounded-full"></div>
+                <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
+                  You are not just learning syntax. You are exploring 4 distinct careers. By Level 4, you will know which one calls to you.
+                </p>
               </div>
 
               {/* Programming Roadmap */}
@@ -114,46 +162,46 @@ export default function LabsPage() {
                 
                 <Level 
                   level={1}
-                  title="The Junior Builder"
-                  subtitle="Build Your Portfolio"
+                  title="The Generalist Builder"
+                  subtitle="Discovery Phase"
                   color="bg-blue-500"
                   icon={Code}
-                  description="Start by building real tools. No boring theory. You learn logic, data, and UI by creating things you can use."
-                  projects={['Gully Cricket Game', 'Food Blog Generator', 'Kharcha (Expense) Tracker']}
-                  skills={['Python Logic', 'File I/O', 'Basic Data Structures', 'Git Version Control']}
+                  description="We throw you into the deep end. You'll touch Logic, UI, and Data. We watch where you struggle and where you shine."
+                  projects={['Gully Cricket (Logic)', 'Food Blog (Product)', 'Kharcha Tracker (Data)']}
+                  skills={['Python Basics', 'File Management', 'Version Control']}
                   align="left"
                 />
 
                 <Level 
                   level={2}
-                  title="The Software Architect"
-                  subtitle="Think Like an Engineer"
+                  title="The Systems Architect"
+                  subtitle="Backend Focus"
                   color="bg-purple-500"
                   icon={Server}
-                  description="Move beyond scripts. Learn how to structure complex applications, manage databases, and write clean, maintainable code."
-                  skills={['Backend Modules', 'Persistent SQL Databases', 'Advanced Styling', 'System Design']}
+                  description="For those who love order and efficiency. Learn to structure complex applications and manage data flow."
+                  skills={['Modular Design', 'SQL Databases', 'API Structure', 'Security Basics']}
                   align="right"
                 />
 
                 <Level 
                   level={3}
-                  title="The Full Stack Builder"
-                  subtitle="Connect the Dots"
+                  title="The Product Engineer"
+                  subtitle="Frontend Focus"
                   color="bg-green-500"
                   icon={Globe}
-                  description="Bridge the gap between backend logic and frontend beauty. Build complete web applications that users love."
-                  skills={['FastAPI / REST APIs', 'User Authentication', 'React / Modern UI', 'Cloud Deployment']}
+                  description="For those who care about the user. Connect your logic to a visual interface and master the art of usability."
+                  skills={['Modern UI Frameworks', 'State Management', 'User Flow', 'Accessibility']}
                   align="left"
                 />
 
                 <Level 
                   level={4}
-                  title="The AI Engineer"
-                  subtitle="Future Proofing"
+                  title="The AI-Ready Developer"
+                  subtitle="Integration Phase"
                   color="bg-orange-500"
                   icon={Cpu}
-                  description="The final frontier. Integrate Machine Learning and AI agents into your apps to solve problems intelligently."
-                  skills={['ML Heuristics', 'AI Agents (LangChain)', 'Scalable Architecture', 'AI Dashboards']}
+                  description="The foundation is laid. Now you integrate basic intelligence. You aren't an AI researcher yet, but you know how to wield AI tools."
+                  skills={['LLM Integration', 'Prompt Engineering', 'Automated Reasoning', 'Smart Dashboards']}
                   align="right"
                 />
               </div>
@@ -163,9 +211,9 @@ export default function LabsPage() {
                  <div className="absolute top-0 right-0 bg-[#FF8C00] text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
                   OPEN NOW
                 </div>
-                <h3 className="text-3xl font-bold text-[#1A2B3C] mb-4">Ready to Start Level 1?</h3>
+                <h3 className="text-3xl font-bold text-[#1A2B3C] mb-4">Start Your Diagnosis</h3>
                 <p className="text-xl text-gray-600 mb-8">
-                  The Python Logic Lab is open. Your first project: The Gully Cricket Game.
+                  The Python Logic Lab is open. Start building and let us find your strength.
                 </p>
                 <Link to="/lab">
                   <button className="px-12 py-4 bg-[#1A2B3C] text-white font-bold rounded-xl hover:bg-[#2A3B4C] transition-colors inline-flex items-center">
@@ -204,6 +252,18 @@ export default function LabsPage() {
   );
 }
 
+function Pillar({ icon: Icon, title, desc, color, bg }: any) {
+  return (
+    <div className={`p-4 rounded-2xl ${bg} text-center`}>
+      <div className="flex justify-center mb-3">
+        <Icon size={32} className={color} />
+      </div>
+      <h4 className="font-bold text-[#1A2B3C] text-sm mb-1">{title}</h4>
+      <p className="text-xs text-gray-500 leading-tight">{desc}</p>
+    </div>
+  );
+}
+
 function Level({ level, title, subtitle, description, skills, projects, color, icon: Icon, align }: any) {
   return (
     <motion.div 
@@ -236,7 +296,7 @@ function Level({ level, title, subtitle, description, skills, projects, color, i
         <div className="bg-white p-6 rounded-3xl border-4 border-gray-100 hover:border-gray-200 transition-colors shadow-sm">
           <div className="mb-4">
             <h5 className="font-bold text-[#1A2B3C] mb-3 flex items-center">
-              <Database size={18} className="mr-2 text-gray-400" /> Skills You'll Unlock
+              <Database size={18} className="mr-2 text-gray-400" /> Competencies Tested
             </h5>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill: string) => (
@@ -250,7 +310,7 @@ function Level({ level, title, subtitle, description, skills, projects, color, i
           {projects && (
             <div>
               <h5 className="font-bold text-[#1A2B3C] mb-3 flex items-center">
-                <GitBranch size={18} className="mr-2 text-gray-400" /> Key Projects
+                <GitBranch size={18} className="mr-2 text-gray-400" /> Diagnostic Projects
               </h5>
               <ul className="space-y-2">
                 {projects.map((proj: string) => (
