@@ -13,15 +13,10 @@ export default function Layout() {
         </Link>
         
         <div className="hidden md:flex items-center space-x-8">
-          {['About', 'Labs', 'Methodology', 'Contact'].map((item) => (
-            <a
-              key={item}
-              href={`/#${item.toLowerCase()}`}
-              className="text-gray-600 font-semibold hover:text-[#FF8C00] transition-colors"
-            >
-              {item}
-            </a>
-          ))}
+          <a href="/#about" className="text-gray-600 font-semibold hover:text-[#FF8C00] transition-colors">About</a>
+          <Link to="/labs" className="text-gray-600 font-semibold hover:text-[#FF8C00] transition-colors">Labs</Link>
+          <a href="/#methodology" className="text-gray-600 font-semibold hover:text-[#FF8C00] transition-colors">Methodology</a>
+          <a href="/#contact" className="text-gray-600 font-semibold hover:text-[#FF8C00] transition-colors">Contact</a>
         </div>
 
         <div className="flex items-center space-x-4">
