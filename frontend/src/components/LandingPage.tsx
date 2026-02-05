@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Lightbulb, BookOpen, Puzzle, Sparkles, Brain, Target, Zap } from 'lucide-react';
 import CareerQuiz from './CareerQuiz';
 import Navigation from './Navigation';
@@ -6,7 +7,6 @@ import Navigation from './Navigation';
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans">
-      <Navigation />
       <HeroSection />
       <ProblemSolutionSection />
       <CareerDiscoverySection />
@@ -68,13 +68,15 @@ function HeroSection() {
             The Socratic AI Lab for the next generation of Indian builders.
           </p>
 
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95, y: 2 }}
-            className="chunky-button bg-[#FF8C00] text-white px-12 py-6 text-2xl font-bold rounded-2xl shadow-[0_8px_0_0_#CC7000] hover:shadow-[0_6px_0_0_#CC7000] active:shadow-[0_2px_0_0_#CC7000] transition-all"
-          >
-            Enter the Lab
-          </motion.button>
+          <Link to="/lab">
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95, y: 2 }}
+              className="chunky-button bg-[#FF8C00] text-white px-12 py-6 text-2xl font-bold rounded-2xl shadow-[0_8px_0_0_#CC7000] hover:shadow-[0_6px_0_0_#CC7000] active:shadow-[0_2px_0_0_#CC7000] transition-all"
+            >
+              Enter the Lab
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
 

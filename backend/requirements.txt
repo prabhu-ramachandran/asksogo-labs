@@ -202,3 +202,5 @@ xxhash==3.6.0
 zopfli==0.4.0
 zstandard==0.25.0
 gradio==6.5.1
+fastapi
+uvicorn
