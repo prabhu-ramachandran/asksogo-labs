@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Lightbulb, BookOpen, Puzzle, Sparkles, Brain, Target, Zap, Globe } from 'lucide-react';
-import CareerQuiz from './CareerQuiz';
+import LabFinder from './LabFinder';
 import Navigation from './Navigation';
 
 export default function LandingPage() {
@@ -270,7 +270,7 @@ function CareerDiscoverySection() {
           </p>
         </motion.div>
 
-        <CareerQuiz />
+        <LabFinder />
       </div>
     </section>
   );
