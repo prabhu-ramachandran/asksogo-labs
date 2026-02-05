@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Lightbulb, BookOpen, Puzzle, Sparkles, Brain, Target, Zap } from 'lucide-react';
+import { Lightbulb, BookOpen, Puzzle, Sparkles, Brain, Target, Zap, Globe } from 'lucide-react';
 import CareerQuiz from './CareerQuiz';
 import Navigation from './Navigation';
 
@@ -17,6 +18,64 @@ export default function LandingPage() {
 }
 
 function HeroSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      id: 0,
+      icon: Lightbulb,
+      iconColor: "text-[#FF8C00]",
+      fillColor: "#FFD700",
+      secondaryIcon: Sparkles,
+      headline: (
+        <>
+          Stop Memorizing.<br />
+          <span className="text-[#FF8C00]">Start Asking.</span>
+        </>
+      ),
+      subtext: "The Socratic AI Lab for the next generation of Indian builders."
+    },
+    {
+      id: 1,
+      icon: Globe,
+      iconColor: "text-blue-500",
+      fillColor: "#BFDBFE",
+      secondaryIcon: Zap,
+      headline: (
+        <>
+          Equitable AI.<br />
+          <span className="text-blue-500">For Every Future.</span>
+        </>
+      ),
+      subtext: "Immaterial of resources or background. Interact with AI daily, because this is the future."
+    },
+    {
+      id: 2,
+      icon: Puzzle,
+      iconColor: "text-green-500",
+      fillColor: "#DCFCE7",
+      secondaryIcon: Sparkles,
+      headline: (
+        <>
+          Curious to Learn?<br />
+          <span className="text-green-500">But feeling lost?</span>
+        </>
+      ),
+      subtext: "Does AI sound scary? You are in the right place. Start asking and discover your path."
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const slide = slides[currentSlide];
+  const Icon = slide.icon;
+  const SecondaryIcon = slide.secondaryIcon;
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-20 pt-32 overflow-hidden">
       <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -26,53 +85,66 @@ function HeroSection() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="mb-8"
         >
-          <motion.div
-            animate={{
-              y: [0, -15, 0],
-              rotate: [0, 5, -5, 0]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: 'easeInOut'
-            }}
-            className="inline-block mb-8"
-          >
-            <div className="relative">
-              <Lightbulb
-                size={120}
-                className="text-[#FF8C00] drop-shadow-2xl"
-                strokeWidth={1.5}
-                fill="#FFD700"
-              />
+          <div className="h-[400px] flex flex-col items-center justify-center">
+            <AnimatePresence mode="wait">
               <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
-                className="absolute -top-2 -right-2"
+                key={slide.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col items-center"
               >
-                <Sparkles size={24} className="text-[#FF8C00]" />
+                {/* Icon Animation */}
+                <motion.div
+                  animate={{
+                    y: [0, -15, 0],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: 'easeInOut'
+                  }}
+                  className="inline-block mb-8"
+                >
+                  <div className="relative">
+                    <Icon
+                      size={120}
+                      className={`${slide.iconColor} drop-shadow-2xl`}
+                      strokeWidth={1.5}
+                      fill={slide.fillColor}
+                    />
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut'
+                      }}
+                      className="absolute -top-2 -right-2"
+                    >
+                      <SecondaryIcon size={24} className={slide.iconColor} />
+                    </motion.div>
+                  </div>
+                </motion.div>
+
+                <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#1A2B3C] mb-6 leading-tight">
+                  {slide.headline}
+                </h1>
+
+                <p className="text-2xl md:text-3xl text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed h-24">
+                  {slide.subtext}
+                </p>
               </motion.div>
-            </div>
-          </motion.div>
-
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#1A2B3C] mb-6 leading-tight">
-            Stop Memorizing.<br />
-            <span className="text-[#FF8C00]">Start Asking.</span>
-          </h1>
-
-          <p className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-            The Socratic AI Lab for the next generation of Indian builders.
-          </p>
+            </AnimatePresence>
+          </div>
 
           <Link to="/lab">
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95, y: 2 }}
-              className="chunky-button bg-[#FF8C00] text-white px-12 py-6 text-2xl font-bold rounded-2xl shadow-[0_8px_0_0_#CC7000] hover:shadow-[0_6px_0_0_#CC7000] active:shadow-[0_2px_0_0_#CC7000] transition-all"
+              className="chunky-button bg-[#FF8C00] text-white px-12 py-6 text-2xl font-bold rounded-2xl shadow-[0_8px_0_0_#CC7000] hover:shadow-[0_6px_0_0_#CC7000] active:shadow-[0_2px_0_0_#CC7000] transition-all mt-8"
             >
               Enter the Lab
             </motion.button>
@@ -81,8 +153,23 @@ function HeroSection() {
       </div>
 
       <div className="absolute inset-0 -z-0 opacity-30">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-[#FF8C00] rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-[#1A2B3C] rounded-full blur-3xl"></div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
+          >
+             <div className={`absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl ${
+               currentSlide === 0 ? 'bg-[#FF8C00]' : 
+               currentSlide === 1 ? 'bg-blue-500' : 
+               'bg-green-500'
+             }`}></div>
+             <div className="absolute bottom-20 right-10 w-40 h-40 bg-[#1A2B3C] rounded-full blur-3xl"></div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
