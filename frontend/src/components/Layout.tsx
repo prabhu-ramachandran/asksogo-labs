@@ -11,6 +11,19 @@ export default function Layout() {
           <Lightbulb className="text-[#FF8C00]" size={32} />
           <span className="font-bold text-2xl text-[#1A2B3C]">AskSOGO</span>
         </Link>
+        
+        <div className="hidden md:flex items-center space-x-8">
+          {['About', 'Labs', 'Methodology', 'Contact'].map((item) => (
+            <a
+              key={item}
+              href={`/#${item.toLowerCase()}`}
+              className="text-gray-600 font-semibold hover:text-[#FF8C00] transition-colors"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+
         <div className="flex items-center space-x-4">
           <SignedOut>
             <SignInButton mode="modal">

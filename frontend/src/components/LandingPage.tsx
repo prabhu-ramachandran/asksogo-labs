@@ -90,7 +90,7 @@ function HeroSection() {
 
 function ProblemSolutionSection() {
   return (
-    <section className="py-20 px-6">
+    <section id="about" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           <motion.div
@@ -166,7 +166,7 @@ function ProblemSolutionSection() {
 
 function CareerDiscoverySection() {
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-[#FAFAFA] to-white">
+    <section id="labs" className="py-20 px-6 bg-gradient-to-b from-[#FAFAFA] to-white">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ y: 30, opacity: 0 }}
@@ -212,7 +212,7 @@ function MethodologySection() {
   ];
 
   return (
-    <section className="py-20 px-6">
+    <section id="methodology" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
         <motion.h2
           initial={{ y: 30, opacity: 0 }}
@@ -254,7 +254,7 @@ function MethodologySection() {
 
 function Footer() {
   return (
-    <footer className="py-12 px-6 bg-[#1A2B3C] text-white">
+    <footer id="contact" className="py-12 px-6 bg-[#1A2B3C] text-white">
       <div className="max-w-4xl mx-auto text-center">
         <p className="text-lg leading-relaxed opacity-90">
           Built for efficiency. Low data. Runs on any browser.<br />
