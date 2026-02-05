@@ -20,7 +20,10 @@ import {
   Radar,
   BrainCircuit,
   Palette,
-  HardDrive
+  HardDrive,
+  UserCheck,
+  Zap,
+  Sparkles
 } from 'lucide-react';
 
 export default function LabsPage() {
@@ -30,65 +33,26 @@ export default function LabsPage() {
     <div className="min-h-screen bg-[#FAFAFA] font-sans pt-12 pb-24">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* Header Section */}
+        {/* Header Section: Universal Vision */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-[#FF8C00] font-bold text-sm mb-4">
-            The Socratic Vision
+            The SOGO Method
           </span>
           <h1 className="text-5xl md:text-6xl font-extrabold text-[#1A2B3C] mb-6">
-            Discover Your <span className="text-[#FF8C00]">Engineering DNA</span>
+            Find Your <span className="text-[#FF8C00]">Strengths.</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            We don't just teach you to code. We analyze <strong>how you think</strong>. 
-            By tracking the questions you ask and the hints you need, we build a unique profile of your strengths—helping you choose the career path where you will thrive.
+            SOGO Labs are more than just courses—they are <strong>career diagnostics</strong>. 
+            Whether you are building code or mastering a language, our Socratic AI analyzes your natural problem-solving style to recommend your perfect next step.
           </p>
         </motion.div>
 
-        {/* The 5 Pillars Section (New) */}
-        <div className="grid md:grid-cols-5 gap-4 mb-24 max-w-6xl mx-auto">
-          <Pillar 
-            icon={BrainCircuit} 
-            color="text-purple-500" 
-            bg="bg-purple-50" 
-            title="Algorithmic Logic" 
-            desc="Solving complex puzzles efficiently." 
-          />
-          <Pillar 
-            icon={Palette} 
-            color="text-pink-500" 
-            bg="bg-pink-50" 
-            title="Product Engineering" 
-            desc="Crafting intuitive user experiences." 
-          />
-          <Pillar 
-            icon={Database} 
-            color="text-blue-500" 
-            bg="bg-blue-50" 
-            title="Data Strategy" 
-            desc="Structuring and managing information." 
-          />
-          <Pillar 
-            icon={HardDrive} 
-            color="text-slate-600" 
-            bg="bg-slate-100" 
-            title="Systems Arch." 
-            desc="Building scalable infrastructure." 
-          />
-          <Pillar 
-            icon={Fingerprint} 
-            color="text-orange-500" 
-            bg="bg-orange-50" 
-            title="Predictive Intuition" 
-            desc="Understanding patterns & AI logic." 
-          />
-        </div>
-
         {/* Lab Collections Selector */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-24">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
           <button
             onClick={() => setActiveTab('programming')}
             className={`relative p-8 rounded-3xl border-4 text-left transition-all group overflow-hidden ${
@@ -106,7 +70,7 @@ export default function LabsPage() {
               Programming Labs
             </h3>
             <p className="text-gray-500">
-              The diagnostic phase. We expose you to Python, Web, and Data to find your natural fit.
+              Discover your Engineering DNA through Python, Web, and Systems development.
             </p>
             {activeTab === 'programming' && (
               <motion.div layoutId="active-ring" className="absolute inset-0 border-4 border-[#FF8C00] rounded-3xl pointer-events-none" />
@@ -117,7 +81,7 @@ export default function LabsPage() {
             onClick={() => setActiveTab('language')}
             className={`relative p-8 rounded-3xl border-4 text-left transition-all group overflow-hidden ${
               activeTab === 'language' 
-                ? 'bg-white border-[#FF8C00] shadow-[0_8px_0_0_#CC7000]' 
+                ? 'bg-white border-blue-500 shadow-[0_8px_0_0_#2563EB]' 
                 : 'bg-white border-gray-100 hover:border-gray-200'
             }`}
           >
@@ -130,7 +94,7 @@ export default function LabsPage() {
               Language Labs
             </h3>
             <p className="text-gray-500">
-              Master the language of global business to unlock international opportunities.
+              Identify your Communication style for the global professional workplace.
             </p>
             {activeTab === 'language' && (
               <motion.div layoutId="active-ring" className="absolute inset-0 border-4 border-blue-500 rounded-3xl pointer-events-none" />
@@ -148,12 +112,49 @@ export default function LabsPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-extrabold text-[#1A2B3C]">The Diagnostic Roadmap</h2>
-                <div className="h-1 w-24 bg-[#FF8C00] mx-auto mt-4 rounded-full"></div>
-                <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-                  You are not just learning syntax. You are exploring 4 distinct careers. By Level 4, you will know which one calls to you.
-                </p>
+              {/* Programming Specific Vision: 5 Pillars */}
+              <div className="mb-16">
+                <div className="text-center mb-10">
+                  <h2 className="text-3xl font-extrabold text-[#1A2B3C]">Programming Competencies</h2>
+                  <p className="text-gray-500 mt-2">We track these 5 pillars to build your Engineering DNA profile.</p>
+                </div>
+                <div className="grid md:grid-cols-5 gap-4 max-w-6xl mx-auto">
+                  <Pillar 
+                    icon={BrainCircuit} 
+                    color="text-purple-500" 
+                    bg="bg-purple-50" 
+                    title="Algorithmic Logic" 
+                    desc="Solving complex puzzles efficiently." 
+                  />
+                  <Pillar 
+                    icon={Palette} 
+                    color="text-pink-500" 
+                    bg="bg-pink-50" 
+                    title="Product Engineering" 
+                    desc="Crafting intuitive user experiences." 
+                  />
+                  <Pillar 
+                    icon={Database} 
+                    color="text-blue-500" 
+                    bg="bg-blue-50" 
+                    title="Data Strategy" 
+                    desc="Structuring and managing information." 
+                  />
+                  <Pillar 
+                    icon={HardDrive} 
+                    color="text-slate-600" 
+                    bg="bg-slate-100" 
+                    title="Systems Arch." 
+                    desc="Building scalable infrastructure." 
+                  />
+                  <Pillar 
+                    icon={Fingerprint} 
+                    color="text-orange-500" 
+                    bg="bg-orange-50" 
+                    title="Predictive Intuition" 
+                    desc="Foundations of automated reasoning." 
+                  />
+                </div>
               </div>
 
               {/* Programming Roadmap */}
@@ -229,19 +230,58 @@ export default function LabsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="text-center py-20"
             >
-              <div className="max-w-2xl mx-auto bg-white rounded-3xl p-12 border-4 border-gray-200">
-                <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <BookOpen size={48} className="text-blue-500" />
+              {/* Language Specific Vision: Placeholder Pillars */}
+              <div className="mb-16">
+                <div className="text-center mb-10">
+                  <h2 className="text-3xl font-extrabold text-[#1A2B3C]">Communication Competencies</h2>
+                  <p className="text-gray-500 mt-2">Identifying your professional voice in the global workplace.</p>
                 </div>
-                <h2 className="text-3xl font-bold text-[#1A2B3C] mb-4">English Lab Coming Soon</h2>
-                <p className="text-xl text-gray-500 mb-8">
-                  We are building an immersive experience to help you master Business English through real-world scenarios.
-                </p>
-                <button disabled className="px-8 py-3 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed">
-                  Join Waitlist
-                </button>
+                <div className="grid md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                  <Pillar 
+                    icon={BookOpen} 
+                    color="text-blue-500" 
+                    bg="bg-blue-50" 
+                    title="Grammar Mastery" 
+                    desc="Structural precision in writing." 
+                  />
+                  <Pillar 
+                    icon={Zap} 
+                    color="text-yellow-500" 
+                    bg="bg-yellow-50" 
+                    title="Contextual Vocab" 
+                    desc="Choosing the right words for the right room." 
+                  />
+                  <Pillar 
+                    icon={UserCheck} 
+                    color="text-green-500" 
+                    bg="bg-green-50" 
+                    title="Professional Tone" 
+                    desc="Conveying confidence and respect." 
+                  />
+                  <Pillar 
+                    icon={Sparkles} 
+                    color="text-purple-500" 
+                    bg="bg-purple-50" 
+                    title="Narrative Flow" 
+                    desc="Connecting ideas into compelling stories." 
+                  />
+                </div>
+              </div>
+
+              <div className="text-center py-10">
+                <div className="max-w-2xl mx-auto bg-white rounded-3xl p-12 border-4 border-gray-200">
+                  <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <BookOpen size={48} className="text-blue-500" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-[#1A2B3C] mb-4">English Lab Coming Soon</h2>
+                  <p className="text-xl text-gray-500 mb-8">
+                    We are building an immersive experience to help you master Business English through real-world scenarios.
+                  </p>
+                  <button disabled className="px-8 py-3 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed">
+                    Join Waitlist
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
@@ -254,7 +294,7 @@ export default function LabsPage() {
 
 function Pillar({ icon: Icon, title, desc, color, bg }: any) {
   return (
-    <div className={`p-4 rounded-2xl ${bg} text-center`}>
+    <div className={`p-4 rounded-2xl ${bg} text-center transition-all hover:scale-105 border-2 border-transparent hover:border-white shadow-sm`}>
       <div className="flex justify-center mb-3">
         <Icon size={32} className={color} />
       </div>
