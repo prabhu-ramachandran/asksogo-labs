@@ -23,4 +23,5 @@ starlette
 typing_extensions
 google-generativeai
 google-api-python-client
-google-auth
+google-authpsycopg2-binary
+psycopg2-binary
