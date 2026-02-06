@@ -1,10 +1,12 @@
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException, Body, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Optional, Any
 import uvicorn
 import os
+import json
 from dotenv import load_dotenv
+from groq import Groq
 
 load_dotenv()
 
@@ -17,6 +19,9 @@ from vision import calculate_xp
 
 # --- APP SETUP ---
 app = FastAPI(title="AskSOGO API")
+
+# Initialize Groq Client
+groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 # CORS Setup - Allow Frontend to access Backend
 origins = [
@@ -131,6 +136,69 @@ def chat_endpoint(req: ChatRequest):
         "next_module": next_module
     }
 
+@app.post("/voice_chat")
+async def voice_chat_endpoint(
+    audio: UploadFile = File(...),
+    user_id: str = Form(...),
+    history: str = Form(...), # JSON string
+    module_name: str = Form(...),
+    goal: str = Form(...)
+):
+    try:
+        # 1. Transcribe with Groq
+        # Save temp file for Groq client (it needs a file-like object with a name or path)
+        contents = await audio.read()
+        filename = f"temp_{user_id}.wav"
+        
+        with open(filename, "wb") as f:
+            f.write(contents)
+            
+        with open(filename, "rb") as f:
+            transcription = groq_client.audio.transcriptions.create(
+                file=(filename, f.read()),
+                model="whisper-large-v3",
+                response_format="json",
+                language="en",
+                temperature=0.0
+            )
+        
+        os.remove(filename) # Cleanup
+        
+        user_text = transcription.text
+        
+        # 2. Process with Socratic Agent (Reuse logic)
+        history_list = json.loads(history)
+        
+        # Create a ChatRequest-like object to reuse chat_endpoint logic if possible, 
+        # or just call the agent directly. Calling directly is cleaner here.
+        formatted_history = []
+        for msg in history_list:
+            if msg['role'] == 'user':
+                formatted_history.append(HumanMessage(content=msg['content']))
+            elif msg['role'] == 'assistant':
+                formatted_history.append(AIMessage(content=msg['content']))
+        
+        formatted_history.append(HumanMessage(content=user_text))
+        
+        result = socratic_agent.invoke({
+            "messages": formatted_history, 
+            "module_name": module_name, 
+            "goal": goal
+        })
+        
+        ai_response = result["messages"][-1].content
+        
+        # (Optional: Generate TTS Audio here if we had ElevenLabs)
+        
+        return {
+            "transcription": user_text,
+            "response": ai_response
+        }
+        
+    except Exception as e:
+        print(f"Voice Chat Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/run_code")
 def run_code_endpoint(req: CodeRequest):
     output = execute_code_safely(req.code)
@@ -142,6 +210,13 @@ def start_module(req: StartModuleRequest):
     
     modules = CURRICULUM.get(req.goal, [])
     if not modules:
+        # Default/Fallback logic for non-coding goals (like English)
+        if req.goal == "English Adventure":
+             return {
+                "module": "Level 0: The Explorer",
+                "intro_message": "Hello! I am Sogo. What is your name?",
+                "all_modules": ["Level 0", "Level 1", "Level 2"]
+            }
         raise HTTPException(status_code=400, detail="Invalid Goal")
         
     # Determine active module

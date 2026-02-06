@@ -24,4 +24,4 @@ typing_extensions
 google-generativeai
 google-api-python-client
 google-auth
-psycopg2-binary
+psycopg2-binarygroq

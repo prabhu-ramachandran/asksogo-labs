@@ -20,24 +20,43 @@ def call_model(state: AgentState):
     
     current_goal = state.get('goal', 'General Python Learning')
     
-    system_prompt = SystemMessage(content=(
-        f"You are a Socratic Python Tutor for an NGO in Bangalore. "
-        f"The student is working towards this goal: {current_goal}. "
-        f"The current module is: {state['module_name']}. "
-        "RULES: \n"
-        "1. NEVER give the full code answer.\n"
-        "2. Always ask one leading question at a time.\n"
-        "3. Use local Bangalore analogies (cricket, silk sarees, traffic, metro) that relate to the current goal.\n"
-        "4. If they get it right, celebrate and move to the next concept with a new question.\n"
-        "5. IMPORTANT: When the student has clearly mastered the CURRENT concept/module, append the tag '[MODULE_COMPLETE]' to the end of your message.\n"
-        "6. ENCOURAGE SELF-SUFFICIENCY: If a student is stuck on a technical error or syntax, do not just give the answer. Encourage them to search on Google. "
-        "Teach them WHAT to search for (e.g., 'How to print a variable in Python'). Give them the specific 'Keywords' to use."
-    ))
+    # --- DYNAMIC PERSONA SELECTION ---
+    if current_goal == "English Adventure":
+        # ENGLISH TUTOR PERSONA (Sogo the Lion)
+        system_text = (
+            f"You are Sogo, a friendly, encouraging Lion who teaches English to kids (10-12 years old) in India. "
+            f"The student is currently at: {state['module_name']}. "
+            "RULES:\n"
+            "1. Speak in simple, short sentences suitable for a child.\n"
+            "2. Be very enthusiastic and use emojis (🦁, 🌟).\n"
+            "3. Correct their grammar gently. Example: 'Almost! We say I *went*, not I *go*.'.\n"
+            "4. NEVER talk about Python code. Only talk about English words, sentences, and the current scenario.\n"
+            "5. If they are in Level 0, focus on single words. If Level 1, simple sentences.\n"
+            "6. Always end with a simple question to keep them talking.\n"
+            "7. If they answer correctly, celebrate loudly! 'Roar-some job!'"
+        )
+    else:
+        # PYTHON TUTOR PERSONA (Original)
+        system_text = (
+            f"You are a Socratic Python Tutor for an NGO in Bangalore. "
+            f"The student is working towards this goal: {current_goal}. "
+            f"The current module is: {state['module_name']}. "
+            "RULES: \n"
+            "1. NEVER give the full code answer.\n"
+            "2. Always ask one leading question at a time.\n"
+            "3. Use local Bangalore analogies (cricket, silk sarees, traffic, metro) that relate to the current goal.\n"
+            "4. If they get it right, celebrate and move to the next concept with a new question.\n"
+            "5. IMPORTANT: When the student has clearly mastered the CURRENT concept/module, append the tag '[MODULE_COMPLETE]' to the end of your message.\n"
+            "6. ENCOURAGE SELF-SUFFICIENCY: If a student is stuck on a technical error or syntax, do not just give the answer. Encourage them to search on Google. "
+            "Teach them WHAT to search for (e.g., 'How to print a variable in Python'). Give them the specific 'Keywords' to use."
+        )
+
+    system_prompt = SystemMessage(content=system_text)
     
     try:
         response = llm.invoke([system_prompt] + state["messages"])
         
-        # Ensure content is a string (handle potential list of content blocks)
+        # Ensure content is a string
         if isinstance(response.content, list):
             text_content = "".join([part["text"] for part in response.content if part["type"] == "text"])
             response.content = text_content
@@ -47,28 +66,8 @@ def call_model(state: AgentState):
         error_msg = str(e)
         print(f"\n❌ [GEMINI API ERROR]: {error_msg}\n")
         
-        # MOCK DATA FOR TESTING WHEN BLOCKED
-        MOCK_RESPONSES = {
-            "Cricket Game": [
-                "Namaskara! I am your coach. Let's build that Cricket Game! To start, how do we tell the computer to show a message like 'Welcome to Chinnaswamy' on the screen?",
-                "Exactly! We use `print()`. Now, if you want to print 'Chinnaswamy', do you put it inside quotes like 'this' or just write it normally?",
-                "Shabash! Quotes it is. You have mastered the print function! Now we can move to storing the score. [MODULE_COMPLETE]"
-            ]
-        }
-        
-        # Try to find a logical mock response based on history length
-        goal = state.get('goal', 'Cricket Game')
-        history_len = len(state['messages'])
-        
-        if goal in MOCK_RESPONSES:
-            mock_index = min(history_len // 2, len(MOCK_RESPONSES[goal]) - 1)
-            fallback_text = MOCK_RESPONSES[goal][mock_index]
-        else:
-            fallback_text = (
-                "Oh! Our digital stadium is having a power cut (Quota Exceeded). "
-                "Even the floodlights at Chinnaswamy need a break! Please try again later. ☕"
-            )
-            
+        # Fallback for error
+        fallback_text = "My roar is a bit quiet right now (Network Error). Can you try again? 🦁"
         from langchain_core.messages import AIMessage
         return {"messages": [AIMessage(content=fallback_text)]}
 

@@ -15,6 +15,8 @@ import {
   Sparkles
 } from 'lucide-react';
 
+import VoiceTutor from './VoiceTutor';
+
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "/api";
 
 interface Message {
@@ -30,7 +32,7 @@ interface XP {
 
 export default function Dashboard() {
   const { user } = useUser();
-  const [view, setView] = useState<'selection' | 'lab'>('selection');
+  const [view, setView] = useState<'selection' | 'lab' | 'english-lab'>('selection');
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
   const [currentModule, setCurrentModule] = useState<string>('');
   const [allModules, setAllModules] = useState<string[]>([]);
@@ -168,26 +170,28 @@ export default function Dashboard() {
             <p className="text-2xl text-gray-600">What do you want to build today?</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[ 
-              { id: 'Cricket Game', title: 'Cricket Game', icon: '🏏', color: 'bg-blue-500' },
-              { id: 'Food Blog', title: 'Food Blog', icon: '🌐', color: 'bg-green-500' },
-              { id: 'Expense Tracker', title: 'Kharcha Tracker', icon: '💰', color: 'bg-orange-500' }
-            ].map((goal, idx) => (
-              <motion.button
-                key={goal.id}
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => startGoal(goal.id)}
-                className="bg-white rounded-3xl p-8 border-4 border-gray-200 hover:border-[#FF8C00] transition-all shadow-[0_8px_0_0_#E5E7EB] hover:shadow-[0_8px_0_0_#FF8C00] text-center"
-              >
-                <div className="text-7xl mb-6">{goal.icon}</div>
-                <h3 className="text-2xl font-bold text-[#1A2B3C] mb-2">{goal.title}</h3>
-                <p className="text-gray-500">Master Python through gully cricket and local logic.</p>
-              </motion.button>
-            ))}
-          </div>
-
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                      {[
+                        { id: 'Cricket Game', title: 'Cricket Game', icon: '🏏', color: 'bg-blue-500' },
+                        { id: 'Food Blog', title: 'Food Blog', icon: '🌐', color: 'bg-green-500' },
+                        { id: 'Expense Tracker', title: 'Kharcha Tracker', icon: '💰', color: 'bg-orange-500' },
+                        { id: 'English Adventure', title: 'English Adventure', icon: '🦁', color: 'bg-yellow-500', isVoice: true }
+                      ].map((goal, idx) => (
+                        <motion.button
+                          key={goal.id}
+                          whileHover={{ scale: 1.05, y: -5 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => goal.isVoice ? setView('english-lab') : startGoal(goal.id)}
+                          className="bg-white rounded-3xl p-8 border-4 border-gray-200 hover:border-[#FF8C00] transition-all shadow-[0_8px_0_0_#E5E7EB] hover:shadow-[0_8px_0_0_#FF8C00] text-center"
+                        >
+                          <div className="text-7xl mb-6">{goal.icon}</div>
+                          <h3 className="text-2xl font-bold text-[#1A2B3C] mb-2">{goal.title}</h3>
+                          <p className="text-gray-500">
+                            {goal.isVoice ? "Learn English through talking with Sogo the Lion!" : "Master Python through local logic."}
+                          </p>
+                        </motion.button>
+                      ))}
+                    </div>
           <div className="mt-16 bg-white rounded-3xl p-8 border-4 border-gray-200">
             <h2 className="text-2xl font-bold text-[#1A2B3C] mb-6 flex items-center">
               <Trophy className="mr-3 text-[#FFD700]" /> Your Skill Levels
@@ -217,6 +221,10 @@ export default function Dashboard() {
         </div>
       </div>
     );
+  }
+
+  if (view === 'english-lab') {
+    return <VoiceTutor scenario="Introduction" onBack={() => setView('selection')} />;
   }
 
   return (
